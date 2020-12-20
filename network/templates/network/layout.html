@@ -2,48 +2,79 @@
 
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <title>{% block title %}Social Network{% endblock %}</title>
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-        <link href="{% static 'network/styles.css' %}" rel="stylesheet">
-    </head>
-    <body>
+  
+  <head>
+    <title>{% block title %}Social Network{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.14.0/css/all.css" integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xbgc" crossorigin="anonymous">
+    <link href="{% static 'network/styles.css' %}" rel="stylesheet">
+    <script src="{% static 'network/index.js'%}"></script>
+  </head>
 
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" href="#">Network</a>
-          
-            <div>
-              <ul class="navbar-nav mr-auto">
-                {% if user.is_authenticated %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="#"><strong>{{ user.username }}</strong></a>
-                    </li>
-                {% endif %}
-                <li class="nav-item">
-                  <a class="nav-link" href="{% url 'index' %}">All Posts</a>
-                </li>
-                {% if user.is_authenticated %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Following</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'logout' %}">Log Out</a>
-                    </li>
-                {% else %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'login' %}">Log In</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'register' %}">Register</a>
-                    </li>
-                {% endif %}
+  <body>
+    <div class="body">
+      <div class="row">
+              
+        <div class="sidebar col-lg-2 col-md-1 py-5 px-1">
+          <h4 class="sidebar-heading"> <a class="nav-link" href="{% url 'index' %}"><i style="padding-right: 10px;" class="fas fa-home"></i> Network</a></h4>
+          <h4 class="sidebar-heading"> <a class="nav-link" href="{% url 'index' %}"><i style="padding-right: 10px;" class="fas fa-list"></i> All Posts</a></h4>
+          {% if user.is_authenticated %}
+            <h4 class="sidebar-heading"> <a class="nav-link" href="{% url 'posts' request.user %}"><i style="padding-right: 10px;" class="fa fa-user"></i> Profile<span class="sr-only">(current)</span></a></h4>
+            <h4 class="sidebar-heading"> <a class="nav-link" href="{% url 'posts' 'following'%}"><i style="padding-right: 10px;" class="fa fa-bookmark"></i> Following<span class="sr-only">(current)</span></a></h4>
+            <h4 class="sidebar-heading"> <a class="nav-link" href="{% url 'logout' %}"><i style="padding-right: 10px;" class="fa fa-sign-out-alt"></i> Logout<span class="sr-only">(current)</span></a></h4>
+          {% else %}
+            <h4 class="sidebar-heading"> <a class="nav-link" href="{% url 'login' %}"><i style="padding-right: 10px;" class="fas fa-sign-in-alt"></i> Login</a></h4>
+            <h4 class="sidebar-heading"> <a class="nav-link" href="{% url 'register' %}"><i style="padding-right: 10px;" class="fas fa-address-card"></i> Register<span class="sr-only">(current)</span></a></h4>
+          {% endif %}  
+        </div>
+                
+        <div class="col-lg-8 col-md-6 ">
+          {% block body %}
+          {% endblock %}
+        </div>
+
+        <div class="sidebar col-lg-2 col-md-3 py-5 px-1">
+          {% if user.is_authenticated %}
+            <h4 class="sidebar-heading">Following</h4>
+            <div class="card sidebar-body">
+              <ul class="list-group">
+                {% for person in request.user.following.all %}
+                  <a class="nav-link" href="{% url 'posts' person %}">
+                    {{ person.username }}
+                  </a>  
+                {% endfor %}
+              </ul>    
+            </div>
+
+            <h4 class="sidebar-heading"> Followers</h4>
+            <div class="card sidebar-body">
+              <ul class="list-group">
+                {% for person in request.user.followers.all %}
+                  <a class="nav-link" href="{% url 'posts' person %}">
+                    {{ person.username }}
+                  </a>
+                {% endfor %}
               </ul>
             </div>
-          </nav>
-        
-        <div class="body">
-            {% block body %}
-            {% endblock %}
+
+            <h4 class="sidebar-heading">Explore</h4>
+            <div class="card sidebar-body">
+              <ul class="list-group">
+                {% for person in users %}
+                  <a class="nav-link" href="{% url 'posts' person %}">
+                    {{ person.username }}
+                  </a>    
+                {% endfor %}
+             </ul>
+            </div>
+          {% endif %}
         </div>
-    </body>
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+  </body>
 </html>

@@ -1,0 +1,94 @@
+body{
+    background : rgb(0, 0, 29);
+    color: lightblue;
+}
+.login-page {
+    width: 400px;
+    padding: 8% 0 0;
+    margin: auto;
+    max-width: 400px;
+}
+.register-page {
+    width: 500px;
+    padding: 8% 0 0;
+    margin: auto;
+    max-width: 500px;
+}
+.col {
+    padding: 0%;
+}
+.form {
+    position: relative;
+    z-index: 1;
+    max-width: 400px;
+    margin: 0 auto 100px;
+    padding: 45px;
+    text-align: center;
+}
+.form input {
+    font-family: "Roboto", sans-serif;
+    outline: 0;
+    width: 100%;
+    border: 0;
+    margin: 0 0 15px;
+    padding: 15px;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+.profile{
+    margin-top: 10px;
+    margin: 1px;
+    background :0%;
+    color: white;
+}
+.card{
+    margin: 1px;
+    background : rgb(17, 17, 41);
+    color: white;
+}
+.card:hover{
+    background: rgba(255, 255, 255, 0.100);
+}
+button{
+    all:unset;
+}
+
+.sidebar{
+    background : 0%;
+    color: lightblue;
+}
+
+.sidebar-heading{
+    margin-left: 1rem;
+    margin-top: 1rem;
+}
+.sidebar-heading a{
+    color: lightblue;
+}
+.sidebar-heading a:hover{
+    color: white;
+}
+.sidebar-body{
+    margin: auto;
+}
+.sidebar-icon{
+    padding-right: 3px;
+}
+#like-button * {
+    pointer-events: none;
+    color: gray;
+}
+
+#like-button:hover * {
+    pointer-events: none;
+    color: lightblue;
+}
+
+.list-group{
+    background: 0%;
+}
+
+.list-group-item{  
+    padding:0.01rem;
+}
+

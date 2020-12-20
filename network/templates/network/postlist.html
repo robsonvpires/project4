@@ -1,0 +1,87 @@
+{% extends "network/layout.html" %}
+
+{% block body %}
+
+  {% block content %}  
+  {% endblock %}
+
+    <div id = "posts">
+        {% for post in page_obj%}
+          <div class="card post" id="{{post.id}}" >
+            <div class="card-header d-flex flex-row justify-content-between">
+              <h5 data-post_user="{{post.user}}"><p> <a href="{% url 'posts' post.user %}">{{post.user}}</a> <span style="color: gray; font-size: 50%;" >{{post.timestamp}}</span> </h5>
+              {% if post.user == request.user %}
+              <button data-post_id="{{post.id}}" id="edit-button">Edit</button>
+              {% endif %}
+            </div>
+            <div class="card-body">
+                <p class="card-title">{{post.body}}</p>
+                {% if request.user.is_authenticated %}
+                  <button type="button" data-post_id="{{post.id}}" id="like-button">
+                    {% if request.user in post.likes.all %} 
+                      <i class="far fa-thumbs-up"></i> 
+                    {% else %} 
+                      <i class="far fa-thumbs-up"></i>
+                    {% endif %} 
+                      <span class="badge likes">{{post.likes.count}}</span> 
+                      </button>
+
+                {% else %}
+                  <i  class="fas fa-thumbs-up"></i><span class="badge likes">{{post.likes.count}}</span> 
+                {% endif %}
+          </div>
+          <div class = "edit-form d-none">
+            <textarea class="form-control m-1" id="text-body" rows="3">{{post.body}}</textarea>
+            <button type="button" class="btn btn-primary" id="save-button"> Save <button>
+          </div>
+
+        </div>
+
+        {% empty %}
+          <h4 class="text-center">No Posts yet</h4>
+        {% endfor %}
+    </div>
+
+
+
+    <nav aria-label="...">
+        <ul class="pagination justify-content-center sticky-bottom">
+          {% if page_obj.has_previous %}
+            <li class="page-item">
+              <a class="nav-link" href="?page=1">&laquo; First</a>
+            </li>
+            <li class="page-item">
+              <a class="nav-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+            </li>
+
+          {% else %}
+            <li class="page-item disabled">
+              <a class="nav-link" href="#">First</a>
+            </li>
+            <li class="page-item disabled">
+              <a class="nav-link" href="#" aria-disabled="true">Previous</a>
+            </li>
+          {% endif %}
+
+          <li class="page-item disabled">
+            <a class="nav-link" href="">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</a>
+          </li>
+
+          {% if page_obj.has_next %}
+          <li class="page-item">
+            <a class="nav-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+          </li>
+          <a class="nav-link" href="?page={{ page_obj.paginator.num_pages }}">Last &raquo;</a>
+
+          {% else %}
+            <li class="page-item disabled">
+              <a class="nav-link" href="#">Next</a>
+            </li>
+            <li class="page-item disabled">
+              <a class="nav-link" href="#" aria-disabled="true">Last</a>
+            </li>
+          {% endif %}
+        </ul>
+      </nav>
+
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends "network/postlist.html" %}
+
+{% block content %}
+  <div class="profile mx-auto ">
+      <div class="row">
+        <div class="col-md-2 col-sm-2" style="padding: 1.25rem;">
+          <img src="https://th.bing.com/th/id/OIP.W1fDzc69LNG8XTNGzl6KXwHaHa?pid=Api&rs=1" class="card-img" alt="...">
+        </div>
+        <div class="col-md-8">
+          <div class="card-body">
+            <h4 class="card-title">{{user.username}}</h4>
+            <p>{{ followers}} followers</p>
+            <p>{{ following}} following</p>
+            {% if user != request.user %}
+              <a class="btn follow-button" data-user_id="{{user.id}}"  role="button">
+                {% if isfollowing %}Unfollow{% else %}Follow{% endif %}
+              </a>
+            {% endif %}
+            
+          </div>
+        </div>
+      </div>
+  </div>
+{% endblock %}

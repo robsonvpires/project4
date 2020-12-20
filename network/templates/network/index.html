@@ -1,5 +1,17 @@
-{% extends "network/layout.html" %}
+{% extends "network/postlist.html" %}
 
-{% block body %}
-    TODO
+{% block content %}
+    <div class="alert alert-success d-none" role="alert">Created </div>
+
+    {% if user.is_authenticated %}
+    <div class="card">
+        <form id="new-post-form">
+            <div class="form-group card-body">
+                <label for="post-body">New post</label>
+                <textarea class="form-control " id="post-body" rows="3"></textarea>
+                <button type="submit" id= "submit" class="btn btn-primary my-2">Submit</button>  
+            </div>
+        </form>
+    </div>
+    {% endif %}
 {% endblock %}
