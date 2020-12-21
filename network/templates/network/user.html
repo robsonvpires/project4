@@ -9,8 +9,8 @@
         <div class="col-md-8">
           <div class="card-body">
             <h4 class="card-title">{{user.username}}</h4>
-            <p>{{ followers}} followers</p>
-            <p>{{ following}} following</p>
+            <p class="card-text"><span class="badge followers">{{ followers}} followers</span> </p>
+            <p class="card-text"><span class="badge followers">{{ following}} following</span> </p>
             {% if user != request.user %}
               <a class="btn follow-button" data-user_id="{{user.id}}"  role="button">
                 {% if isfollowing %}Unfollow{% else %}Follow{% endif %}
